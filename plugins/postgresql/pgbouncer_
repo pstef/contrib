@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/local/bin/perl -w
 
 # re-write of python version of pgbouncer stats
 # data from stats, pools (client, server)
@@ -12,12 +12,12 @@ need_multigraph();
 # get the script name
 my $plugin_name = $Munin::Plugin::me;
 # set the DB connection vars
-my $db_user = $ENV{'pgbouncer_user'}  || 'postgres';
-my $db_port = $ENV{'pgbouncer_port'}  || '6432';
-my $db_host = $ENV{'pgbouncer_host'}  || 'localhost';
-my $db_pass = $ENV{'pgbouncer_pass'}  || '';
 my $db_pool = $ENV{'pgbouncer_pool'}  || '';
-my $db_name = 'pgbouncer';
+my $db_pass = $ENV{'pgbouncer_pass'}  || '';
+my $db_user = $ENV{'pgbouncer_user'}  || 'postgres';
+my $data_source = 'DBI:Pg:dbname=pgbouncer';
+$data_source .= ";host=$ENV{'pgbouncer_host'}" if ($ENV{'pgbouncer_host'});
+$data_source .= ";port=" . ($ENV{'pgbouncer_port'} || '6432');
 my @data = ();
 # get the DB (pool) name we want to fetch
 $plugin_name =~ /pgbouncer_(.*)$/;
@@ -40,7 +40,7 @@ if (defined($ARGV[0]))
 	# autoconf, nothing to do
 	if ($ARGV[0] eq 'autoconf')
 	{
-		my $dbh = DBI->connect("DBI:Pg:dbname=$db_name;host=$db_host;port=$db_port", $db_user, $db_pass);
+		my $dbh = DBI->connect($data_source, $db_user, $db_pass);
 		if (!$dbh)
 		{
 			print "no\n";
@@ -163,7 +163,7 @@ if (defined($ARGV[0]))
 }
 
 # connect to data
-my $dbh = DBI->connect("DBI:Pg:dbname=$db_name;host=$db_host;port=$db_port", $db_user, $db_pass)
+my $dbh = DBI->connect($data_source, $db_user, $db_pass)
 	 or die ("Cannot connect to database");
 # go trough each set and get the data
 foreach my $get ('pools', 'stats')
