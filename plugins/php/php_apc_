@@ -26,7 +26,7 @@
 #
 #################################################################
 #################################################################
-# Settigs required for autoconf
+# Settings required for autoconf
 #%# family=auto
 #%# capabilities=autoconf suggest
 
@@ -118,7 +118,7 @@ exit 0
 fi
 
 #################################################################
-# run the sript
+# run the script
 
 [ -x $WGET ] &&	$WGET -q $WGET_FLAGS "$URL?act=$act" -O - && exit 0
 

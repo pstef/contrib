@@ -12,6 +12,15 @@ freebox - Plugin to monitor stats of a Freebox (Free.fr's custom series of route
   #%# family=auto
   #%# capabilities=autoconf
 
+=head1 CONFIGURATION
+
+At some point, the default C<mafreebox.free.fr> address stopped pointing to the
+local Freebox. It is now necessary to specify the IP address or hostname of the
+router. This is done as follows.
+
+	[freebox]
+	env.freebox_url http://192.2.0.1
+
 =head1 CAVEAT
 
 Only tested on a Freebox v5 with an ADSL uplink.
@@ -20,7 +29,7 @@ Only tested on a Freebox v5 with an ADSL uplink.
 
 Olivier Mehani
 
-Copyright (C) 2019 Olivier Mehani <shtrom+munin@ssji.net>
+Copyright (C) 2019,2022 Olivier Mehani <shtrom+munin@ssji.net>
 
 =head1 LICENSE
 
@@ -35,7 +44,10 @@ if [ "${MUNIN_DEBUG:-0}" = 1 ]; then
     set -x
 fi
 
-fbx_info_url="http://mafreebox.free.fr/pub/fbx_info.txt"
+FBX_URL=${freebox_url:-"http://mafreebox.free.fr"}
+
+fbx_info_url="${FBX_URL}/pub/fbx_info.txt"
+
 #
 # Example output (including stray whitespaces):
 #
@@ -254,7 +266,7 @@ graph_config() {
 		.adsl)
 			echo "graph_title ADSL characteristics"
 			echo 'graph_category network'
-			echo 'graph_vlabel dB in (+) / out (-)'
+			echo 'graph_vlabel dB in (-) / out (+)'
 			echo 'graph_order noise_down noise attenuation_down attenuation'
 
 			echo 'noise_down.label Noise down'
@@ -270,7 +282,7 @@ graph_config() {
 		.adsl_errors)
 			echo 'graph_title ADSL error correction'
 			echo 'graph_category network'
-			echo 'graph_vlabel errors in (+) / out (-)'
+			echo 'graph_vlabel errors in (-) / out (+)'
 			echo 'graph_order fec_down fec crc_down crc hec_down hec'
 
 			echo 'fec_down.label FEC down'
@@ -303,7 +315,7 @@ graph_config() {
 		.traffic)
 			echo 'graph_title Traffic'
 			echo 'graph_category network'
-			echo 'graph_vlabel bits per second in (+) / out (-)'
+			echo 'graph_vlabel bits per second in (-) / out (+)'
 			echo 'graph_order atm_down atm wan_down wan eth_down eth usb_down usb switch_down switch'
 
 			echo 'atm_down.label ATM down'
@@ -366,7 +378,7 @@ graph_config() {
 		*)
 			echo 'graph_title Uplink traffic'
 			echo 'graph_category network'
-			echo 'graph_vlabel bits per second in (+) / out (-)'
+			echo 'graph_vlabel bits per second in (-) / out (+)'
 			echo 'graph_order main_atm_down main_atm main_wan_down main_wan'
 
 			# XXX: summary data similar to (more detailed) traffic

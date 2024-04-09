@@ -18,21 +18,25 @@ None need
 You can set warning and critical levels for each of the data
 series the plugin reports.
 'General' graph support cpu-irqtype limits and irqtype limits
+
 Examples:
-[irq]
-env.warning_cpu1_sirq_total 550
-env.critical_cpu0_irq_total 600
-env.warning_irq_total 700
-env.critical_sirq_total 700
+
+ [irq]
+ env.warning_cpu1_sirq_total 550
+ env.critical_cpu0_irq_total 600
+ env.warning_irq_total 700
+ env.critical_sirq_total 700
 
 'Child' graphs support cpu-irqtype-irqname and irqtype-irqname limits
+
 Examples:
-[irq]
-env.warning_cpu0_irq_7 100
-env.critical_cpu1_sirq_HI 100
-env.warning_irq_LOC 100
-env.critical_irq_12 200
-env.warning_sirq_BLOCK 1000
+
+ [irq]
+ env.warning_cpu0_irq_7 100
+ env.critical_cpu1_sirq_HI 100
+ env.warning_irq_LOC 100
+ env.critical_irq_12 200
+ env.warning_sirq_BLOCK 1000
 
 Note: irqtype: sirq, irq; sirq - Software IRQ; irq name you can see in [] on graph
 
@@ -343,10 +347,10 @@ sub prepare_graphs
         my $field_name = clean_fieldname(sprintf("irq_%s", $irq_name));
         append_cpu_limit($limits, $gr, $irq_type, $field_name, $graph_name, $i, $irq_name);
         $gr->{$graph_name}{'graph'}{'order'} .= ' '.$field_name;
-        for my $fo (qw(label info))
+        for my $this_field (qw(label info))
         {
-          $gr->{$graph_name}{'fields'}{$field_name}{$fo} = replace($fields->{'irq'}{$fo}, ':irq:', $irq_name);
-          $gr->{$graph_name}{'fields'}{$field_name}{$fo} = replace($gr->{$graph_name}{'fields'}{$field_name}{$fo},
+          $gr->{$graph_name}{'fields'}{$field_name}{$this_field} = replace($fields->{'irq'}{$this_field}, ':irq:', $irq_name);
+          $gr->{$graph_name}{'fields'}{$field_name}{$this_field} = replace($gr->{$graph_name}{'fields'}{$field_name}{$this_field},
                                                                    ':irqinfo:',
                                                                    exists($IRQi->{'description'}{$irq_type}{$irq_name}) ?
                                                                     $IRQi->{'description'}{$irq_type}{$irq_name} :
@@ -368,7 +372,7 @@ sub print_config
   {
     printf("multigraph %s\n", $g);
     for my $go (sort keys %{$config->{$g}{'graph'}}) { printf("graph_%s %s\n", $go, $config->{$g}{'graph'}{$go}); }
-    for my $f (sort keys %{$config->{$g}{'fields'}}) { for my $fo (sort keys %{$config->{$g}{'fields'}{$f}}) { printf("%s.%s %s\n", $f, $fo, $config->{$g}{'fields'}{$f}{$fo}); } }
+    for my $f (sort keys %{$config->{$g}{'fields'}}) { for my $this_field (sort keys %{$config->{$g}{'fields'}{$f}}) { printf("%s.%s %s\n", $f, $this_field, $config->{$g}{'fields'}{$f}{$this_field}); } }
     print "\n";
   }
 }

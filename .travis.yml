@@ -3,6 +3,7 @@ dist: bionic
 addons:
   apt:
     packages:
+      - codespell
       - devscripts
       - python
       - python-flake8
@@ -15,6 +16,7 @@ addons:
       - zsh
       - pylint
       - shellcheck
+      - rubocop
       - pkg-config
       - libdb-dev
       - libvirt-dev
@@ -84,4 +86,5 @@ before_install:
   # - MythTV
 
 script:
+  - make lint
   - prove

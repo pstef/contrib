@@ -12,20 +12,28 @@ downstream channels. (Signal Power, SNR, Lock Status)
 
 
 =head1 REQUIREMENTS
-- BeautifulSoup
-- pycryptodome
+
+=over 4
+
+=item BeautifulSoup
+
+=item pycryptodome
+
+=back
 
 
 =head1 CONFIGURATION
 
 =head2 Example
-[arris]
-env.url http://192.168.100.1
-env.username admin
-env.password yourpassword
+
+ [arris]
+ env.url http://192.168.100.1
+ env.username admin
+ env.password yourpassword
 
 
 =head2 Parameters
+
 url      - URL to web-frontend
 username - defaults to "admin"
 password - valid password
@@ -37,22 +45,25 @@ https://www.arris.com/products/touchstone-tg3442-cable-voice-gateway/
 
 =head1 AUTHOR
 
- Copyright (c) 2019 Daniel Hiepler <d-munin@coderdu.de>
- Copyright (c) 2004-2009 Nicolas Stransky <Nico@stransky.cx>
- Copyright (c) 2018 Lars Kruse <devel@sumpfralle.de>
+Copyright (c) 2019 Daniel Hiepler <d-munin@coderdu.de>
+
+Copyright (c) 2004-2009 Nicolas Stransky <Nico@stransky.cx>
+
+Copyright (c) 2018 Lars Kruse <devel@sumpfralle.de>
 
 
 =head1 LICENSE
- Permission to use, copy, and modify this software with or without fee
- is hereby granted, provided that this entire notice is included in
- all source code copies of any software which is or includes a copy or
- modification of this software.
 
- THIS SOFTWARE IS BEING PROVIDED "AS IS", WITHOUT ANY EXPRESS OR
- IMPLIED WARRANTY. IN PARTICULAR, NONE OF THE AUTHORS MAKES ANY
- REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE
- MERCHANTABILITY OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR
- PURPOSE.
+Permission to use, copy, and modify this software with or without fee
+is hereby granted, provided that this entire notice is included in
+all source code copies of any software which is or includes a copy or
+modification of this software.
+
+THIS SOFTWARE IS BEING PROVIDED "AS IS", WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTY. IN PARTICULAR, NONE OF THE AUTHORS MAKES ANY
+REPRESENTATION OR WARRANTY OF ANY KIND CONCERNING THE
+MERCHANTABILITY OF THIS SOFTWARE OR ITS FITNESS FOR ANY PARTICULAR
+PURPOSE.
 
 
 =head1 MAGIC MARKERS
@@ -79,11 +90,10 @@ base64.encodebytes(b'{ "unique":"280oaPSLiF", "family":"852", "modelname":"TG249
                    '"name":"technician", "tech":true, "moca":0, "wifi":5, "conType":"WAN", '
                    '"gwWan":"f", "DefPasswdChanged":"YES" }').decode()
 """
-CREDENTIAL_COOKIE = """eyAidW5pcXVlIjoiMjgwb2FQU0xpRiIsICJmYW1pbHkiOiI4NTIiLCAibW9kZWxuYW1lIjoiVEcy
-NDkyTEctODUiLCAibmFtZSI6InRlY2huaWNpYW4iLCAidGVjaCI6dHJ1ZSwgIm1vY2EiOjAsICJ3
-aWZpIjo1LCAiY29uVHlwZSI6IldBTiIsICJnd1dhbiI6ImYiLCAiRGVmUGFzc3dkQ2hhbmdlZCI6
-IllFUyIgfQ==
-"""
+CREDENTIAL_COOKIE = "eyAidW5pcXVlIjoiMjgwb2FQU0xpRiIsICJmYW1pbHkiOiI4NTIiLCAibW9kZWxuYW1lIjoiVEcy"\
+    "NDkyTEctODUiLCAibmFtZSI6InRlY2huaWNpYW4iLCAidGVjaCI6dHJ1ZSwgIm1vY2EiOjAsICJ3"\
+    "aWZpIjo1LCAiY29uVHlwZSI6IldBTiIsICJnd1dhbiI6ImYiLCAiRGVmUGFzc3dkQ2hhbmdlZCI6"\
+    "IllFUyIgfQ=="
 
 
 def login(session, url, username, password):
@@ -103,7 +113,7 @@ def login(session, url, username, password):
         bytes(password.encode("ascii")),
         salt,
         iterations=1000,
-        dklen=128/8
+        dklen=128 / 8
     )
     secret = {"Password": password, "Nonce": current_session_id}
     plaintext = bytes(json.dumps(secret).encode("ascii"))
@@ -244,10 +254,10 @@ if __name__ == "__main__":
             # graph config
             print(f"multigraph docsis_{g['name']}")
             print(f"graph_title {g['title']}")
-            print(f"graph_category network")
+            print("graph_category network")
             print(f"graph_vlabel {g['vlabel']}")
             print(f"graph_info {g['info']}")
-            print(f"graph_scale no")
+            print("graph_scale no")
 
             # channels
             for c in g['data']:

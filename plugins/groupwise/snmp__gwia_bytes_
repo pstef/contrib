@@ -4,7 +4,7 @@
 # Copyright (C) 2007 Gabriele Pohl
 #
 # Derived from plugin snmp__load
-# Copyright (C) 2004 Jimmy Olsen, Dagfinn Ilmari Mannsaaker
+# Copyright (C) 2004 Jimmy Olsen, Dagfinn Ilmari Mannsåker
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -55,7 +55,7 @@
 # ...will monitor a single GWIA object on host foo.example.com.
 #
 # Parameters
-#	community - Specify wich community string to use (Default: public)
+#	community - Specify which community string to use (Default: public)
 # 	port - Specify which port to read from (Default: 161)
 #	host - Specify which host to monitor (Default: Read from link in servicedir)
 #	pos - Specify which table Object to read (Default: Read from link in servicedir,
